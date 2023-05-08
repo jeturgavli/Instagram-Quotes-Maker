@@ -3,64 +3,55 @@ import colorama
 from colorama import Fore, Back, Style
 colorama.init(autoreset=True)
 
+def get_text_color():
+    while True:
+        color = input("Enter text color (white or black): ").strip().lower()
+        if color == 'white':
+            return (255, 255, 255)
+        elif color == 'black':
+            return (0, 0, 0)
+        else:
+            print("Invalid color. Please try again.")
 
+def save_image(image, filename):
+    image.save(f'Quotes_Output/{filename}.jpg')
 
 def main():
-    template = input("Chose Background : ")
+    template = input("Choose Background : ")
     templateBg = Image.open(f'Backgrounds/{template}.jpg')
 
     font_object =  ImageFont.truetype('Fonts/arial.ttf', 40 )
-
     drawing_object = ImageDraw.Draw(templateBg)
 
     Parmanet_BG = Image.open('Program Stuff/Img-2.png')
     templateBg.paste(Parmanet_BG, Parmanet_BG)
 
-    text0 = input("0 line : ")
-    text1 = input("1 Line : ")
-    text2 = input("2 Line : ")
-    text3 = input("3 Line : ")
-    text4 = input("4 Line : ")
-    
-    # L0-450 L1-500 L2-550 L3-600 L4-650 L5-700 L6-750 L7-800 L8-850 L9-900
-    print("")
-    
-    white = (251,255,255)
-    black = (0,0,0)
+    texts = []
+    for i in range(5):
+        texts.append(input(f"{i} line : "))
 
-    if white or black:
-        color = input("White or black color : ")
-
-        
-    textcolor = color
+    text_color = get_text_color()
 
     #shadows
-    drawing_object.text((122,750), text0, fill=black, font = font_object )
-    drawing_object.text((122,800), text1, fill=black, font = font_object )
-    drawing_object.text((122,850), text2, fill=black, font = font_object )
-    drawing_object.text((122,900), text3, fill=black, font = font_object )
-    drawing_object.text((122,950), text4, fill=black, font = font_object )
-    
+    for i, text in enumerate(texts):
+        x = 122
+        y = 750 + 50 * i
+        drawing_object.text((x, y), text, fill=(0, 0, 0), font=font_object)
 
-    drawing_object.text((120,750), text0, fill=textcolor, font = font_object )
-    drawing_object.text((120,800), text1, fill=textcolor, font = font_object )
-    drawing_object.text((120,850), text2, fill=textcolor, font = font_object )
-    drawing_object.text((120,900), text3, fill=textcolor, font = font_object )
-    drawing_object.text((120,950), text4, fill=textcolor, font = font_object )
+    for i, text in enumerate(texts):
+        x = 120
+        y = 750 + 50 * i
+        drawing_object.text((x, y), text, fill=text_color, font=font_object)
 
+    image_name = input("Enter image name: ")
+    save_image(templateBg, image_name)
 
-    BGQuoteSave = input("Save Your Image Name : ")
-    templateBg.save(f'Quotes_Output/{BGQuoteSave}.jpg')
-
-    Repeat = input("Would You Like To Run Again ? Y or N ",).lower()
-    if Repeat =="y":
+    repeat = input("Would you like to run again? (y/n) ").lower()
+    if repeat == "y":
         main()
     else:
-        print("n")
+        print("Exiting...")
         exit()
 
-    print("")
-
-
-main()
-
+if __name__ == '__main__':
+    main()
