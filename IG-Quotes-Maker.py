@@ -9,7 +9,7 @@ def main():
     template = input("Chose Background : ")
     templateBg = Image.open(f'Backgrounds/{template}.jpg')
 
-    font_object =  ImageFont.truetype('ArialCE.ttf', 40 )
+    font_object =  ImageFont.truetype('Fonts/arial.ttf', 40 )
 
     drawing_object = ImageDraw.Draw(templateBg)
 
